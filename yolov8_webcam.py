@@ -3,7 +3,7 @@ from ultralytics import YOLO
 #model = YOLO("yolov8n.pt")
 #model = YOLO("yolov8x.pt")
 #model = YOLO("yolov8x-seg.pt")
-model = YOLO('/home/houei/Desktop/development/yorov8/project_ML/model/best.pt')
+model = YOLO('./model/best.pt')
 
 model.to("cpu")
 
