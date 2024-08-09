@@ -1,6 +1,5 @@
 copy/
 venv/
 *.jpg
-data/
 ultralytics/
 results/

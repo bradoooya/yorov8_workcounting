@@ -3,16 +3,21 @@ from ultralytics import YOLO
 import os
 from datetime import datetime
 
+#ディレクトリ指定
+current_dir = Path.cwd() 
+project_dir = current_dir
+
 #モデルのロード
-model = YOLO('./model/best.pt')
+model_path = project_dir / './model/best.pt'
+model = YOLO(model_path)
 
 #画像ディレクトリのパス
-image_dir = Path("./data/images/for_pred")
+image_dir = project_dir / "/data/images/for_pred"
 
 #予想結果の保存先のパス
 timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-save_dir = f'./results/run_pred_test/{timestamp}'
-os.makedirs(save_dir, exist_ok=True)
+save_dir = project_dir / f'/results/run_pred_test/{timestamp}'
+os.makedirs(save_dir, mode=0o777, exist_ok=True) # 保存先フォルダが存在しない場合は作成
 
 #画像ディレクトリからjpgファイルを取得
 jpg_files = image_dir.glob("*.jpg")
