@@ -8,6 +8,12 @@ from src.utils.utils import LCD, LCDMessage
 
 @pytest.fixture
 def lcd():
+    """
+    LCDクラスのモックオブジェクトを作成するフィクスチャ。
+    
+    Returns:
+        MagicMock: LCDクラスのメソッドをモックしたインスタンスを返す。
+    """
     lcd = LCD()
     lcd.lcd_init = MagicMock()
     lcd.lcd_byte = MagicMock()
@@ -17,12 +23,34 @@ def lcd():
 
 @pytest.fixture
 def lcd_message(lcd):
+    """
+    LCDMessageクラスのインスタンスを作成するフィクスチャ。
+    
+    Args:
+        lcd (MagicMock): モックされたLCDインスタンス。
+    
+    Returns:
+        LCDMessage: LCDMessageクラスのインスタンスを返す。
+    """
     return LCDMessage(lcd)
 
 def test_initialization(lcd):
+    """
+    LCDクラスの初期化メソッドが一度だけ呼び出されることをテストする。
+    
+    Args:
+        lcd (MagicMock): モックされたLCDインスタンス。
+    """
     lcd.lcd_init.assert_called_once()
 
 def test_display_message(lcd_message, lcd):
+    """
+    LCDMessageクラスのdisplay_messageメソッドが正しくメッセージを表示することをテストする。
+    
+    Args:
+        lcd_message (LCDMessage): テスト対象のLCDMessageインスタンス。
+        lcd (MagicMock): モックされたLCDインスタンス。
+    """
     message = "Test Message"
     lcd_message.display_message(message, display_duration=1)
 
@@ -33,6 +61,13 @@ def test_display_message(lcd_message, lcd):
     lcd.lcd_string.assert_any_call(expected_line_2, lcd.LCD_LINE_2)
 
 def test_update_message(lcd_message, lcd):
+    """
+    LCDMessageクラスのメッセージ更新が正しく反映されることをテストする。
+    
+    Args:
+        lcd_message (LCDMessage): テスト対象のLCDMessageインスタンス。
+        lcd (MagicMock): モックされたLCDインスタンス。
+    """
     initial_message = "Initial Message"
     new_message = "New Message"
 
@@ -47,5 +82,12 @@ def test_update_message(lcd_message, lcd):
     lcd.lcd_string.assert_any_call(expected_line_2, lcd.LCD_LINE_2)
 
 def test_clear(lcd_message, lcd):
+    """
+    LCDMessageクラスのclearメソッドが呼び出されたことをテストする。
+    
+    Args:
+        lcd_message (LCDMessage): テスト対象のLCDMessageインスタンス。
+        lcd (MagicMock): モックされたLCDインスタンス。
+    """
     lcd_message.lcd.clear()
     lcd.clear.assert_called_once()
